@@ -27,9 +27,31 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func About(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("welcome to home page"))
+	//w.Write([]byte("welcome to home page"))
+	ts, err := template.ParseFiles("./Static/html/about.page.tmpl")
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+	err = ts.Execute(w, nil)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+	}
 }
 
 func HandlerPoll(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("welcome to home page"))
+	//w.Write([]byte("welcome to home page"))
+	ts, err := template.ParseFiles("./Static/html/create.page.tmpl")
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+	err = ts.Execute(w, nil)
+	if err != nil {
+		log.Print(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+	}
 }
