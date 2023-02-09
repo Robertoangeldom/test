@@ -1,4 +1,4 @@
-package handlers
+package main
 
 import (
 	"net/http"
@@ -7,7 +7,7 @@ import (
 )
 
 // handler fuction
-func Home(w http.ResponseWriter, r *http.Request) {
+func (app *application) Home(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
@@ -18,13 +18,11 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 // handler fuction
-func About(w http.ResponseWriter, r *http.Request) {
+func (app *application) About(w http.ResponseWriter, r *http.Request) {
 	helpers.Rendertmpl(w, "./Static/html/about.page.tmpl")
 }
 
 // handler fuction
-func HandlerPoll(w http.ResponseWriter, r *http.Request) {
+func (app *application) HandlerPoll(w http.ResponseWriter, r *http.Request) {
 	helpers.Rendertmpl(w, "./Static/html/create.poll.tmpl")
 }
-
-
