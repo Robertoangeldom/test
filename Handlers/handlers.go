@@ -1,57 +1,30 @@
 package handlers
 
 import (
-	"html/template"
-	"log"
 	"net/http"
+
+	"github.com/Robertoangeldom/poll/helpers"
 )
 
+// handler fuction
 func Home(w http.ResponseWriter, r *http.Request) {
+
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
 	}
-	//w.Write([]byte("welcome to home page"))
+	helpers.Rendertmpl(w, "./Static/html/home.page.tmpl")
 
-	ts, err := template.ParseFiles("./Static/html/home.page.tmpl")
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-		return
-	}
-	err = ts.Execute(w, nil)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-	}
 }
 
+// handler fuction
 func About(w http.ResponseWriter, r *http.Request) {
-	//w.Write([]byte("welcome to home page"))
-	ts, err := template.ParseFiles("./Static/html/about.page.tmpl")
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-		return
-	}
-	err = ts.Execute(w, nil)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-	}
+	helpers.Rendertmpl(w, "./Static/html/about.page.tmpl")
 }
 
+// handler fuction
 func HandlerPoll(w http.ResponseWriter, r *http.Request) {
-	//w.Write([]byte("welcome to home page"))
-	ts, err := template.ParseFiles("./Static/html/create.page.tmpl")
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-		return
-	}
-	err = ts.Execute(w, nil)
-	if err != nil {
-		log.Print(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-	}
+	helpers.Rendertmpl(w, "./Static/html/create.poll.tmpl")
 }
+
+
