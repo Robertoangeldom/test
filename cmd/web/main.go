@@ -16,21 +16,15 @@ func main() {
 	addr := flag.String("port", ":4000", "HTTP network address")
 	flag.Parse()
 
-	//create an instants of application type 
+	//create an of application type 
 	app := &application{}
+	//create a customizable server
+	srv := &http.Server{
+		Addr: *addr,
+		Handler: app.routes(),
 
-	//create multiplexer
-	mux := http.NewServeMux()
-
-	//create file server
-	fileServer := http.FileServer(http.Dir("./static/"))
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-
-	mux.HandleFunc("/", app.Home)
-	mux.HandleFunc("/about", app.About)
-	mux.HandleFunc("/handlerPoll", app.HandlerPoll)
-
+	}
 	log.Printf("starting server on port %s", *addr)
-	err := http.ListenAndServe( *addr, mux)
+	err := srv.ListenAndServe()
 	log.Fatal(err)
 }
