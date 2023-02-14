@@ -2,27 +2,24 @@ package main
 
 import (
 	"net/http"
-
-	"github.com/Robertoangeldom/poll/helpers"
 )
 
-// handler fuction
-func (app *application) Home(w http.ResponseWriter, r *http.Request) {
-
+// home displays the home page
+func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 		return
 	}
-	helpers.Rendertmpl(w, "./Static/html/home.page.tmpl")
+	RenderTemplate(w, "home.page.tmpl")
+}
+
+// about displays the about us page
+func (app *application) about(w http.ResponseWriter, r *http.Request) {
+	RenderTemplate(w, "about.page.tmpl")
 
 }
 
-// handler fuction
-func (app *application) About(w http.ResponseWriter, r *http.Request) {
-	helpers.Rendertmpl(w, "./Static/html/about.page.tmpl")
-}
-
-// handler fuction
-func (app *application) HandlerPoll(w http.ResponseWriter, r *http.Request) {
-	helpers.Rendertmpl(w, "./Static/html/create.poll.tmpl")
+// createFeedback creates a new feedback
+func (app *application) create(w http.ResponseWriter, r *http.Request) {
+	RenderTemplate(w, "poll.page.tmpl")
 }
