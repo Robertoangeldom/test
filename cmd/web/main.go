@@ -18,7 +18,7 @@ type application struct {}
 func main() {
 	// configure our server
 	addr := flag.String("addr", ":4000", "HTTP network address")
-	dsn := flag.String("dsn", os.Getenv("POLL_DB_DSN"), "PostgreSQL DSN (Data Source Name)")
+	dsn := flag.String("dsn", os.Getenv("HELLO_DB_DSN"), "PostgreSQL DSN (Data Source Name)")
 	flag.Parse()
 
 	// share data across our handlers

@@ -1,15 +1,22 @@
 // Filename: cmd/web/routes.go
 package main
 
-import "net/http"
+import (
+	"net/http"
 
-func(app *application) routes() *http.ServeMux {
-	mux := http.NewServeMux()
+	"github.com/julienschmidt/httprouter"
+)
+
+func(app *application) routes() http.Handler {
+
+	mux := httprouter.New()
+
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
-  mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-	mux.HandleFunc("/", app.home)
-	mux.HandleFunc("/about", app.about)
-	mux.HandleFunc("/create", app.create)
+  mux.Handler(http.MethodGet, "/static/*filepath", http.StripPrefix("/static", fileServer))
+
+	mux.HandlerFunc(http.MethodGet, "/", app.home)
+	mux.HandlerFunc(http.MethodGet, "/about", app.about)
+	mux.HandlerFunc(http.MethodGet, "/create", app.create)
 
 	return mux
 }
