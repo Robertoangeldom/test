@@ -18,7 +18,7 @@ type application struct {}
 func main() {
 	// configure our server
 	addr := flag.String("addr", ":4000", "HTTP network address")
-	dsn := flag.String("dsn", os.Getenv("HELLO_DB_DSN"), "PostgreSQL DSN (Data Source Name)")
+	dsn := flag.String("dsn", os.Getenv("FOOD_DB_DSN"), "PostgreSQL DSN (Data Source Name)")
 	flag.Parse()
 
 	// share data across our handlers
@@ -45,19 +45,21 @@ func main() {
 	err = srv.ListenAndServe()
 	log.Fatal(err)
 }
-// The openDB() function returns a database connection pool or error
-func openDB(dsn string) (*sql.DB, error) {
+//get a database connection pool
+func openDB(dsn string) (*sql.DB, error){
 	db, err := sql.Open("pgx", dsn)
-	if err != nil {
+	if err != nil{
 		return nil, err
 	}
-	// create a context 
-	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
+	//use a context if the db is reachable
+	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
 	defer cancel()
-	// test the DB connection
+	//let's ping the DB
 	err = db.PingContext(ctx)
-	if err != nil {
+	if err !=nil {
 		return nil, err
 	}
+
+
 	return db, nil
 }

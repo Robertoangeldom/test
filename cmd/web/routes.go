@@ -9,14 +9,14 @@ import (
 
 func(app *application) routes() http.Handler {
 
-	mux := httprouter.New()
+	router := httprouter.New()
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
-  mux.Handler(http.MethodGet, "/static/*filepath", http.StripPrefix("/static", fileServer))
+	router.Handler(http.MethodGet, "/static/*filepath", http.StripPrefix("/static", fileServer))
 
-	mux.HandlerFunc(http.MethodGet, "/", app.home)
-	mux.HandlerFunc(http.MethodGet, "/about", app.about)
-	mux.HandlerFunc(http.MethodGet, "/create", app.create)
+	router.HandlerFunc(http.MethodGet, "/", app.home)
+	router.HandlerFunc(http.MethodGet, "/about", app.about)
+	router.HandlerFunc(http.MethodGet, "/create", app.create)
 
-	return mux
+	return	router
 }
