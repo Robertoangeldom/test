@@ -21,14 +21,16 @@ func main() {
 	dsn := flag.String("dsn", os.Getenv("FOOD_DB_DSN"), "PostgreSQL DSN (Data Source Name)")
 	flag.Parse()
 
-	// share data across our handlers
-	app := &application{}
-	// get a database connection pool
+	// create an instance of the connection pool
 	db, err := openDB(*dsn)
 	if err != nil {
 		log.Print(err)
 		return
 	}
+
+	// share data across our handlers
+	app := &application{}
+
 	// cleanup the connection pool
 	defer db.Close()
 	// acquired a database connection pool
@@ -59,7 +61,5 @@ func openDB(dsn string) (*sql.DB, error){
 	if err !=nil {
 		return nil, err
 	}
-
-
 	return db, nil
 }

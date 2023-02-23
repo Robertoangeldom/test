@@ -23,3 +23,7 @@ func (app *application) about(w http.ResponseWriter, r *http.Request) {
 func (app *application) create(w http.ResponseWriter, r *http.Request) {
 	RenderTemplate(w, "poll.page.tmpl")
 }
+
+//func (app *application) MessageCreate(w http.ResponseWriter, r *http.Request) {
+//	if r.Method 
+//}
