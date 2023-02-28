@@ -10,10 +10,13 @@ import (
 	"time"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
+	"github.com/lewisdalwin/poll/internal/models"
 )
 
 // Share data across our handlers
-type application struct {}
+type application struct {
+	question models.Question
+}
 
 func main() {
 	// configure our server
@@ -29,7 +32,9 @@ func main() {
 	}
 
 	// share data across our handlers
-	app := &application{}
+	app := &application{
+		question: models.Question{DB: db},
+	}
 
 	// cleanup the connection pool
 	defer db.Close()
