@@ -10,18 +10,23 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	RenderTemplate(w, "home.page.tmpl")
+	//RenderTemplate(w, "home.page.tmpl")
 }
 
 // about displays the about us page
 func (app *application) about(w http.ResponseWriter, r *http.Request) {
-	RenderTemplate(w, "about.page.tmpl")
+	//RenderTemplate(w, "about.page.tmpl")
 
 }
 
 // createFeedback creates a new feedback
 func (app *application) create(w http.ResponseWriter, r *http.Request) {
-	RenderTemplate(w, "poll.page.tmpl")
+	//RenderTemplate(w, "poll.page.tmpl")
+	question, err :=app.question.Get()
+	if err != nil{
+		return
+	}
+	w.Write([]byte(question.Body))
 }
 
 //func (app *application) MessageCreate(w http.ResponseWriter, r *http.Request) {

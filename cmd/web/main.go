@@ -9,13 +9,13 @@ import (
 	"os"
 	"time"
 
+	"github.com/Robertoangeldom/test/internal/models"
 	_ "github.com/jackc/pgx/v5/stdlib"
-	"github.com/lewisdalwin/poll/internal/models"
 )
 
 // Share data across our handlers
 type application struct {
-	question models.Question
+	question models.QuestionModel2
 }
 
 func main() {
@@ -33,7 +33,7 @@ func main() {
 
 	// share data across our handlers
 	app := &application{
-		question: models.Question{DB: db},
+		question: models.QuestionModel{DB: db},
 	}
 
 	// cleanup the connection pool
@@ -52,18 +52,19 @@ func main() {
 	err = srv.ListenAndServe()
 	log.Fatal(err)
 }
-//get a database connection pool
-func openDB(dsn string) (*sql.DB, error){
+
+// get a database connection pool
+func openDB(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("pgx", dsn)
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 	//use a context if the db is reachable
-	ctx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	//let's ping the DB
 	err = db.PingContext(ctx)
-	if err !=nil {
+	if err != nil {
 		return nil, err
 	}
 	return db, nil
