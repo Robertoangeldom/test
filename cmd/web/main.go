@@ -15,7 +15,7 @@ import (
 
 // Share data across our handlers
 type application struct {
-	question models.QuestionModel2
+	question models.QuestionModel
 }
 
 func main() {
