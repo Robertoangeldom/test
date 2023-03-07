@@ -1,5 +1,5 @@
 -- Filename: migrations/000005_create_question_responses_table.up.sql
-CREATE TABLE question_responses (
+CREATE TABLE IF NOT EXISTS question_responses (
   question_response_id bigserial PRIMARY KEY,
   question_id BIGINT REFERENCES questions(question_id),
   response_code_id BIGINT REFERENCES response_codes(response_code_id),
