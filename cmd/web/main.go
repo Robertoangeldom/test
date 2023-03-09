@@ -15,7 +15,9 @@ import (
 
 // Share data across our handlers
 type application struct {
-	question models.QuestionModel
+	questions models.QuestionModel
+	responses models.ResponseModel
+	options models.OptionsModel
 }
 
 func main() {
@@ -24,7 +26,7 @@ func main() {
 	dsn := flag.String("dsn", os.Getenv("FOOD_DB_DSN"), "PostgreSQL DSN (Data Source Name)")
 	flag.Parse()
 
-	// create an instance of the connection pool
+	// get a database connection pool
 	db, err := openDB(*dsn)
 	if err != nil {
 		log.Print(err)
@@ -33,13 +35,14 @@ func main() {
 
 	// share data across our handlers
 	app := &application{
-		question: models.QuestionModel{DB: db},
+		questions: models.QuestionModel{DB: db},
+		responses: models.ResponseModel{DB: db},
+		options: models.OptionsModel{DB: db},
 	}
-
 	// cleanup the connection pool
 	defer db.Close()
 	// acquired a database connection pool
-	log.Print("database connection pool established")
+	log.Println("database connection pool established")
 	// create and start a custom web server
 	log.Printf("starting server on %s", *addr)
 	srv := &http.Server{
@@ -52,17 +55,16 @@ func main() {
 	err = srv.ListenAndServe()
 	log.Fatal(err)
 }
-
-// get a database connection pool
+// The openDB() function returns a database connection pool or error
 func openDB(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		return nil, err
 	}
-	//use a context if the db is reachable
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	// create a context 
+	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
 	defer cancel()
-	//let's ping the DB
+	// test the DB connection
 	err = db.PingContext(ctx)
 	if err != nil {
 		return nil, err
